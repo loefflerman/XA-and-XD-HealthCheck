@@ -143,8 +143,8 @@ $Assigmenttablewidth = 900
 #Header for Table "VDI Checks" Get-BrokerMachine
 $VDIfirstheaderName = "Desktop-Name"
 
-$VDIHeaderNames = "CatalogName","DeliveryGroup","PowerState", "Ping", "MaintMode", 	"Uptime","LastConnect", 	"RegState","VDAVersion","AssociatedUserNames",  "WriteCacheType", "WriteCacheSize", "Tags", "HostedOn", "displaymode", "OSBuild"
-$VDIHeaderWidths = "4", "4",		"4","4", 	"4", 				"4", 		"4","4", 				"4",			  "4",			  "4",			  "4",			  "4", "4", "4", 		"4"
+$VDIHeaderNames = "CatalogName","DeliveryGroup","PowerState", "Ping", "MaintMode", 	"Uptime","LastConnect","LastUser", 	"RegState","VDAVersion","AssociatedUserNames",  "WriteCacheType", "WriteCacheSize", "Tags", "HostedOn", "displaymode", "OSBuild"
+$VDIHeaderWidths = "4", "4",		"4","4", 	"4", 				"4", 		"4","4","4", 				"4",			  "4",			  "4",			  "4",			  "4", "4", "4", 		"4"
 
 $VDItablewidth = 1200
   
@@ -1131,7 +1131,11 @@ else
 	}
 ## End Column LastConnect
 
-
+## Column LastUser
+$LastUser = $machine | %{ $_.LastConnectionUser }
+"Last User:  $LastUser" | LogMe -display -progress
+$tests.LastUser = "NEUTRAL", $LastUser
+## End Column LastUser
 
 # Column displaymode when a User has a Session
 $sessionUser = $machine | %{ $_.SessionUserName }
@@ -1760,4 +1764,9 @@ $smtpClient.Send( $emailMessage )
 # added column "LastConnect" to variable "$VDIHeaderNames" Report Table around line 149
 # added column "4" to variable "$VDIHeaderWidths" to format new column "LastConnect" in VDI Report Table around line 150
 # added Scriptblock "## Column LastConnect" around line 1108
+# #
+# Edited on November 2018 by loefflerman
+# added column "LastUser" to variable "$VDIHeaderNames" Report Table around line 149
+# added column "4" to variable "$VDIHeaderWidths" to format new column "LastUser" in VDI Report Table around line 150
+# added Scriptblock "## Column LastUser" around line 1134
 #=========== History END ===========================================================================
